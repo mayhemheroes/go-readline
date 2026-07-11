@@ -1,0 +1,9 @@
+project: go-readline
+target: fuzz_readline
+cmds:
+  - cmd: /mayhem/fuzz_readline
+    libfuzzer: true
+    dictionary: /mayhem/mayhem/fuzz_readline.dict
+testsuite:
+  - https://$MAYHEM_DOMAIN/$MAYHEM_PROJECT/$MAYHEM_TARGET/testsuite.tar
+  - file://mayhem/fuzz_readline/testsuite

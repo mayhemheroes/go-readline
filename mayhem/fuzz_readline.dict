@@ -1,0 +1,42 @@
+# libFuzzer dictionary for chzyer/readline's FuzzReadline.
+# The harness fuzzes the PROMPT string passed to New(line); the prompt is rendered through the
+# RuneBuffer / runes.ColorFilter / display-width path. These tokens push the fuzzer toward the
+# ANSI-escape, wide-rune and control-char branches of that rendering logic faster.
+
+# ANSI / VT escape introducers (runes.ColorFilter strips \033[...m sequences while measuring width)
+"\x1b"
+"\x1b["
+"\x1b[m"
+"\x1b[0m"
+"\x1b[1m"
+"\x1b[13;1m"
+"\x1b[31m"
+"\x1b[1;31m"
+"\x1b]0;"
+"\x9b"
+
+# control bytes the terminal/key classifier keys off (CharEsc, CharEscapeEx 'O'/'[', CR/LF/Tab/Bell)
+"\x00"
+"\x07"
+"\x08"
+"\x09"
+"\x0a"
+"\x0d"
+"\x7f"
+"O"
+"["
+
+# wide / combining / multibyte runes exercise the display-width (WidthAll) branches
+"\xe4\xbd\xa0"
+"\xe2\x98\xad"
+"\xf0\x9f\x98\x80"
+"\xed\x95\x9c"
+"\xef\xac\x80"
+"\xc3\xa9"
+
+# common prompt shapes
+"> "
+">>> "
+"$ "
+"% "
+"# "
